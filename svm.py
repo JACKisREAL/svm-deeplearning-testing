@@ -3,9 +3,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.metrics import confusion_matrix, accuracy_score
 import matplotlib.pyplot as plt
-import numpy as np
 import seaborn as sns
 from sklearn.model_selection import GridSearchCV
+from sklearn.preprocessing import LabelEncoder
 
 def classify_with_svm(file_path):
     """
@@ -26,7 +26,11 @@ def classify_with_svm(file_path):
         
         # 2. Memisahkan fitur (X) dan label (y)
         X = df.drop(columns=['Filename', 'Label'])
-        y = df['Label']
+        # Encode label menjadi angka
+        le = LabelEncoder()
+        y = le.fit_transform(df['Label'])
+        print("\n--- DEBUGGING: Mapping Label ---")
+        print(dict(zip(le.classes_, le.transform(le.classes_))))
 
         # --- FUNGSI DEBUGGING TAMBAHAN: Memeriksa jumlah fitur dan sampel ---
         print("\n--- DEBUGGING: Informasi Data ---")
@@ -43,15 +47,15 @@ def classify_with_svm(file_path):
         
         # --- FUNGSI DEBUGGING TAMBAHAN: Memeriksa distribusi kelas setelah split ---
         print("\n--- DEBUGGING: Distribusi Kelas Setelah Split ---")
+        print("\n--- DEBUGGING: Distribusi Kelas Setelah Split ---")
         print("Distribusi kelas pada data pelatihan:")
-        print(y_train.value_counts())
+        print(pd.Series(y_train).value_counts())
         print("\nDistribusi kelas pada data pengujian:")
-        print(y_test.value_counts())
-
+        print(pd.Series(y_test).value_counts())
         # 4. Inisialisasi dan melatih model SVM
         print("\nMemulai pelatihan model SVM...")
         param_grid = {
-            'kernel': ['linear', 'rbf', 'poly'],
+            'kernel': ['linear'],
             'C': [0.1, 1, 10, 100],
             'gamma': ['scale', 'auto'],
             'shrinking': [True, False]
