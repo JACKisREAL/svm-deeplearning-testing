@@ -18,7 +18,7 @@ Due to the large size and high dimensionality of the data, SVM does not perform 
     ```bash
     git clone https://github.com/JACKisREAL/svm-deeplearning-testing.git
     ```
-2. **Install dependencies**
+2. **Install dependencies (NOT YET)**
     ```bash
     pip install -r requirements.txt
     ```
